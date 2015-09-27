@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Kalkulator Javascript</title>
+</head>
+<style type="text/css">
+	input {
+	    width: 212px;
+	    height: 50px;
+	    font-size: 1.5em;
+	    padding: 0px 5px;
+	    box-sizing: border-box;
+	}
+	button {
+	    width: 50px;
+	    height: 50px;
+		font-size: 1.5em;
+	}
+	div {
+		margin-bottom: 10px;
+	}
+	.wrapper, .copyright {
+		margin-top: 50px;
+	}
+</style>
+<body>
+	<center class="wrapper">
+
+		<h1>Kalkulator</h1>
+		<div>
+			<input type="text" id="screen" readonly="readonly">
+		</div>
+		<div>
+			<button type="button" onclick="addToScreen(this)">1</button>
+			<button type="button" onclick="addToScreen(this)">2</button>
+			<button type="button" onclick="addToScreen(this)">3</button>
+			<button type="button" onclick="backspace()"> << </button>
+		</div>
+		<div>
+			<button type="button" onclick="addToScreen(this)">4</button>
+			<button type="button" onclick="addToScreen(this)">5</button>
+			<button type="button" onclick="addToScreen(this)">6</button>
+			<button type="button" onclick="addToScreen(this)">+</button>
+		</div>
+		<div>
+			<button type="button" onclick="addToScreen(this)">7</button>
+			<button type="button" onclick="addToScreen(this)">8</button>
+			<button type="button" onclick="addToScreen(this)">9</button>
+			<button type="button" onclick="addToScreen(this)">-</button>
+		</div>
+		<div>
+			<button type="button" onclick="addToScreen(this)" style="margin-left:54px;">0</button>
+			<button type="button" onclick="reset()">AC</button>
+			<button type="button" onclick="calculate()">=</button>
+		</div>
+
+		<p class="copyright">
+			&copy; 2015
+			Widia Rifkianti - 4513215051<br>
+			dibuat untuk mata kuliah Pemrograman Internet 3	
+		</p>
+	</center>
+
+	<script type="text/javascript">
+	var input = document.getElementById("screen");
+
+	// fungsi ini untuk menampilkan input dari button ke layar input
+	function addToScreen(el){
+		// variabel utk menyimpan nilai yang sudah ada di input
+		var valInput = input.value;
+		// variabel utk menyimpan karakter bilangan/operator terakhir yang sudah ada di input
+		var lastInput = valInput.charAt(parseInt(valInput.length-1));
+		// variabel utk menyimpan nilai bilangan/operator dari button
+		var valBtn = el.innerHTML;
+		// variabel utk mendefinisikan nilai input baru
+		var newValInput = valInput;
+
+		// jika user mempush operator setelah operator sebagai input terakhir, maka tidak berlaku. e.g: ++ / +- << ga bisa
+		// ATAU, jik auser mempush 0 setelah operator. e.g: + 0 << gabisa
+		if( isNaN(parseInt(lastInput))===true &&  isNaN(parseInt(valBtn))===true 
+			|| isNaN(parseInt(lastInput))===true && parseInt(valBtn)==0 ){
+			return false;
+		}
+		
+		// jika karakter yg hendak dimasukkan adalah karakter pertama, jangan tambahkan spasi
+		// ATAU, jika antara karakter terakhir dan karakter baru, adalah bilangan diikuti bilangan, jangan tambahkan spasi juga
+		// SPASI hanya untuk memberi jarak antara BILANGAN dan OPERATOR
+		if( lastInput=="" || ( isNaN(parseInt(lastInput))===false &&  isNaN(parseInt(valBtn))===false) ){
+			newValInput += "";
+		} else {
+			newValInput += " ";
+		}
+
+		// tambahkan nilai/karakter dari button ke akhir inputan
+		newValInput += valBtn;
+
+		input.value = newValInput;
+	}
+
+	// fungsi kalkulasi
+	function calculate(){
+		// variabel utk menyimpan nilai yang sudah ada di input
+		var valInput = input.value;
+		// split bilangan dengan karakter +
+		var splitByPlus = valInput.split(" + ");
+		// variabel penampung hasil kalkulasi
+		var hasilKalkulasi = 0;
+
+		// loop hasil split yg berbentuk array tadi UNTUK menjumlahkan bilangan
+		for (var i = 0; i<splitByPlus.length; i++){
+			// jika nilai dalam array splitByPlus terdapat karakter min ( - ), MAKA	
+			if( splitByPlus[i].search(" - ") > -1 ){
+				// split lagi by ( - )
+				var splitByMin = splitByPlus[i].split(" - ");
+				// hitung hasil pengurangan antar bilangan yg displit
+				for (var j = 0; j<splitByMin.length; j++){
+					// nilai variabel hasilKurang dimulai dari nilai yg berada di indeks j=0,
+					// selanjutnya hasilKurang = nilai hasil kurang sebelumnya dikurangi nilai dlm array
+					var hasilKurang = (j==0) ? splitByMin[j] : hasilKurang-splitByMin[j];
+				}
+				// masukkan nilai hasilKurang ke penjumlahan
+				hasilKalkulasi += hasilKurang;
+			}
+			// jika nilai array di splitByPlus bilangan biasa, maka tinggal tambahkan saja
+			else{
+				hasilKalkulasi += parseInt(splitByPlus[i]);
+			}
+		}
+
+		// print ke layar
+		input.value = hasilKalkulasi;
+	}
+
+	// fungsi untuk menghapus karakter terakhir yg ada di inputan
+	function backspace(){
+		var valInput = input.value;
+		// jika 2 karakter terakhir ada spasi, hapus beserta spasinya,
+		// jika tidak, hapus 1 karakter terakhir
+		input.value = valInput.substr(-2,1)==" " 
+						? valInput.substr(0,parseInt(valInput.length-2))
+						: input.value = valInput.substr(0,parseInt(valInput.length-1));
+	}
+
+
+	// fungsi untuk mengosongkan inputan 
+	function reset(){
+		input.value = "";
+	}
+	</script>
+</body>
+</html>

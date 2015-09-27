@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Count Down - Javascript</title>
+</head>
+<body>
+	<div>
+		
+		<h2>Count Down</h2>
+		<p>Deskripsi Tugas: Masukkan nilai berupa angka kedalam sebuah prompt, dan jalankan fungsi countdown timer dari angka tersebut sebagai detik hingga detik ke 0</p>
+		<div>
+			Timer:
+			<!--<input type="text" id="timer">-->
+			<h1 id="timer"></h1>
+		</div>
+
+	</div>
+
+	<script type="text/javascript">
+	// munculkan prompt
+	var timer = prompt("Masukkan jumlah detik yang kamu mau!");
+	
+	// jika prompt tidak di cancel, atau jika input yg dimasukkan berupa angka / is a number
+	// maka jalankan kondisi berikut
+	if(timer !== null && isNaN(parseInt(timer))===false ){
+		// cetak detik awal
+		document.getElementById('timer').innerHTML = timer;
+		// parsing angke ke integer
+		detik = parseInt(timer);
+		// jalankan fungsi itung() setelah 1000ms/1s/1 detik
+		setTimeout(itung, 1000);
+	}
+
+	function itung() {	
+		// jika nilai detik terdeteksi sudah 0, 
+  		if (detik == 0) {
+			// munculkan alert dan akhiri fungsi yg berjalan dgn keyword return;	
+	    	alert("Waktu Habis");
+	    	return;
+	    }
+	 	
+		// degradasi nilai detik
+	    detik--;
+		// cetak nilai detik terkini
+	    document.getElementById('timer').innerHTML = detik;
+		// jalankan terus fungsi itung() per 1000ms/1 detik
+	    setTimeout(itung, 1000);
+	}
+	</script>
+</body>
+</html>

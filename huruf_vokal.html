@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Hitung huruf vokal - Javascript</title>
+</head>
+<body>
+	<div style="margin-bottom: 40px">
+		<h2>Hitung Jumlah Huruf Vokal</h2>
+		<p>Deskripsi tugas: lakukan perhitungan terhadap jumlah huruf vokal yang berada dalam sebuah textarea</p> 
+		<textarea cols="20" rows="10" id="kotakTeks"></textarea><br>
+		<button type="button" onclick="hitungVokal();">Hitung huruf vokal</button>
+		<button type="button" onclick="reset();">Reset</button>
+		<p>
+			Jumlah Huruf: <span id="jumlahVokal">0</span>
+		<p>		
+	</div>
+
+	<script type="text/javascript">
+	// fungsi utama
+	function hitungVokal(){
+		// variabel utk menyimpan nilai dlm textarea
+		var teks = document.getElementById("kotakTeks").value;
+		// pecahkan teks per karakter dan simpan dalam sebuah var 
+		var teksArray = teks.split("");
+		// lakukan looping dengan mengecek vokal / tidaknya karakter yg menjadi nilai dlm array
+		var jumlahVokal = 0;
+		for(var n=0;  n < teksArray.length; n++){
+			// tambah nilai jumlah vokal jika hanya fungsi isVowel mereturn nilai true
+			if(isVowel(teksArray[n]) === true) jumlahVokal++;
+		}
+		// print var jumlahVokal 
+		document.getElementById("jumlahVokal").innerHTML=jumlahVokal;
+	}
+	
+	// fungsi untuk mengecek vokal/tidaknya karakter
+	function isVowel(c) {
+		// jika karakter terindeks dalam array [a,i,u,e,o]
+		// return true
+		// === -1 >> karakter tidak terindex dlm array
+    	return ['a', 'e', 'i', 'o', 'u'].indexOf(c.toLowerCase()) !== -1;
+	}
+	
+	function reset(){
+		document.getElementById("kotakTeks").value = "";
+		document.getElementById("jumlahVokal").innerHTML=0;
+	}
+	</script>
+</body>
+</html>
